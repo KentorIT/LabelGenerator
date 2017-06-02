@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LabelGenerator;
+using Kentor.LabelGenerator;
 using FluentAssertions;
 using System.IO;
-using LabelGenerator.Settings;
+using Kentor.LabelGenerator.Settings;
 
-namespace LabelGeneratorTests
+namespace Kentor.LabelGeneratorTests
 {
     [TestClass]
     public class GeneratePdfTests

@@ -6,9 +6,9 @@ using PdfSharp.Pdf;
 using System.IO;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing.Layout;
-using LabelGenerator.Settings;
+using Kentor.LabelGenerator.Settings;
 
-namespace LabelGenerator
+namespace Kentor.LabelGenerator
 {
     public static class CreatePdf
     {
