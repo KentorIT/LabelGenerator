@@ -1,0 +1,17 @@
+﻿{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "net461": {
+      "dependencies": {
+      },
+      "imports": "dnxcore50"
+    }
+  },
+  "testRunner": "mstest",
+  "dependencies": {
+    "MSTest.TestFramework": "1.1.11",
+    "dotnet-test-mstest": "1.1.2-preview",
+    "FluentAssertions": "4.19.2",
+    "LabelGenerator": "1.0.0-*"
+  }
+}

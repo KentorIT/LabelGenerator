@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "PDFsharp": "1.50.4000-beta3b"
+  },
+
+  "frameworks": {
+    "net461": {
+      "imports": "dnxcore50"
+    }
+  }
+}
