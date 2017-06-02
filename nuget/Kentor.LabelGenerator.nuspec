@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/KentorIT/LabelGenerator/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/KentorIT/LabelGenerator</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A .NET Library for generating labels to PDF files</description>
+    <copyright>Copyright Hannah Sahlberg and contributors 2017</copyright>
+    <tags>Labels PDF Avery</tags>
+    <releaseNotes />
+  </metadata>
+</package>
