@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Kentor.LabelGenerator;
 using FluentAssertions;
 using System.IO;
-using Kentor.LabelGenerator.Settings;
+using Kentor.LabelGenerator.Models;
 
 namespace Kentor.LabelGeneratorTests
 {
@@ -36,11 +36,11 @@ namespace Kentor.LabelGeneratorTests
         public void TestSettingsAreGeneratedForSpecificDocumentType()
         {
             var docType = DocumentType.A4_2Columns8Rows;
-            var settings = CreatePdf.GetSettings(docType);
+            var settings = Utilities.GetSettings(docType);
             settings.Should().BeOfType<LabelSettings_A4_2Columns8Rows>();
 
             docType = DocumentType.A4_3Columns8Rows;
-            settings = CreatePdf.GetSettings(docType);
+            settings = Utilities.GetSettings(docType);
             settings.Should().BeOfType<LabelSettings_A4_3Columns8Rows>();
         }
 
@@ -50,7 +50,7 @@ namespace Kentor.LabelGeneratorTests
             testAddresses = testAddresses.Concat(testAddresses).ToArray();
 
             var documentType = DocumentType.A4_2Columns8Rows;
-            var result = CreatePdf.CreateDocument(testAddresses, documentType);
+            var result = DocumentHelpers.CreateDocument(testAddresses, documentType);
             result.PageCount.Should().BeGreaterThan(1);
         }
 
@@ -58,8 +58,8 @@ namespace Kentor.LabelGeneratorTests
         public void TestRectangleReturnsValue()
         {
             var settings = new LabelSettings_A4_2Columns8Rows();
-            var contentSize = CreatePdf.GetContentSize(settings);
-            var result = CreatePdf.CreateRectangle(settings.LabelPositionX, settings.LabelPositionY, contentSize);
+            var contentSize = DocumentHelpers.GetContentSize(settings);
+            var result = DocumentHelpers.CreateRectangle(settings.LabelPositionX, settings.LabelPositionY, contentSize);
             result.IsEmpty.Should().BeFalse();
         }
 
@@ -68,7 +68,7 @@ namespace Kentor.LabelGeneratorTests
         {
             var settings = new LabelSettings_A4_2Columns8Rows();
             var document = new PdfSharp.Pdf.PdfDocument();
-            var result = CreatePdf.AddPage(document, settings);
+            var result = DocumentHelpers.AddPage(document, settings);
 
             result.Width.Type.Should().Be(PdfSharp.Drawing.XGraphicsUnit.Point);
             result.Height.Type.Should().Be(PdfSharp.Drawing.XGraphicsUnit.Point);
@@ -78,7 +78,7 @@ namespace Kentor.LabelGeneratorTests
         public void TestAddressesAreFormattedCorrectly()
         {
             string[] address = new string[] { "Tolvan Tolvansson", "c/o Elvan Elvansson", "Tolvgatan 12", "12345 Tolvstad", "Sverige" };
-            var result = CreatePdf.FormatLabelText(address, 60);
+            var result = DocumentHelpers.FormatLabelText(address, 60);
             result.Should().Be("Tolvan Tolvansson\r\nc/o Elvan Elvansson\r\nTolvgatan 12\r\n12345 Tolvstad\r\nSverige\r\n");
         }
 
@@ -93,7 +93,7 @@ namespace Kentor.LabelGeneratorTests
             var settings = new LabelSettings_A4_2Columns8Rows();
             var totalMaxLength = Environment.NewLine.Length + settings.MaxCharactersPerRow;
 
-            var result = CreatePdf.FormatLabelText(address, settings.MaxCharactersPerRow);
+            var result = DocumentHelpers.FormatLabelText(address, settings.MaxCharactersPerRow);
             result.Length.Should().Be(totalMaxLength);
         }
 
@@ -104,66 +104,66 @@ namespace Kentor.LabelGeneratorTests
 
             var columnsPerPage = 2;
             var labelsInPage = 0;
-            var result = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            var result = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
             result.Should().Be(1); // First column
 
             columnsPerPage = 2;
             labelsInPage = 1;
-            result = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            result = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
             result.Should().Be(2); // Second column
 
             columnsPerPage = 2;
             labelsInPage = 2;
-            result = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            result = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
             result.Should().Be(1); // First column
 
             //---- 3 COLUMNS PER PAGE
 
             columnsPerPage = 3;
             labelsInPage = 0;
-            result = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            result = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
             result.Should().Be(1); // First column
 
             columnsPerPage = 3;
             labelsInPage = 1;
-            result = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            result = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
             result.Should().Be(2); // Second column
 
             columnsPerPage = 3;
             labelsInPage = 2;
-            result = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            result = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
             result.Should().Be(3); // Third column
 
             columnsPerPage = 3;
             labelsInPage = 3;
-            result = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            result = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
             result.Should().Be(1); // First column
 
             //---- 4 COLUMNS PER PAGE
 
             columnsPerPage = 4;
             labelsInPage = 0;
-            result = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            result = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
             result.Should().Be(1); // First column
 
             columnsPerPage = 4;
             labelsInPage = 1;
-            result = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            result = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
             result.Should().Be(2); // Second column
 
             columnsPerPage = 4;
             labelsInPage = 2;
-            result = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            result = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
             result.Should().Be(3); // Third column
 
             columnsPerPage = 4;
             labelsInPage = 3;
-            result = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            result = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
             result.Should().Be(4); // Forth column
 
             columnsPerPage = 4;
             labelsInPage = 4;
-            result = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            result = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
             result.Should().Be(1); // First column
         }
 
@@ -175,30 +175,30 @@ namespace Kentor.LabelGeneratorTests
             var columnsPerPage = 2;
             var labelsInPage = 0; // No labels added yet
             int currentRow;
-            var currentColumn = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
-            currentRow = CreatePdf.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
+            var currentColumn = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            currentRow = DocumentHelpers.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
             currentRow.Should().Be(1);
 
             labelsInPage++;
-            currentColumn = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
-            currentRow = CreatePdf.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
+            currentColumn = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            currentRow = DocumentHelpers.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
             currentRow.Should().Be(1);
 
             // New row
             labelsInPage++;
-            currentColumn = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
-            currentRow = CreatePdf.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
+            currentColumn = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            currentRow = DocumentHelpers.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
             currentRow.Should().Be(2);
 
             labelsInPage++;
-            currentColumn = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
-            currentRow = CreatePdf.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
+            currentColumn = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            currentRow = DocumentHelpers.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
             currentRow.Should().Be(2);
 
             // New row
             labelsInPage++;
-            currentColumn = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
-            currentRow = CreatePdf.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
+            currentColumn = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            currentRow = DocumentHelpers.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
             currentRow.Should().Be(3);
 
             //---- 3 COLUMNS PER PAGE
@@ -206,25 +206,25 @@ namespace Kentor.LabelGeneratorTests
             columnsPerPage = 3;
             labelsInPage = 0; // No labels added yet
             currentRow = 1; // Start value
-            currentColumn = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
-            currentRow = CreatePdf.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
+            currentColumn = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            currentRow = DocumentHelpers.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
             currentRow.Should().Be(1);
 
             labelsInPage++;
-            currentColumn = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
-            currentRow = CreatePdf.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
+            currentColumn = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            currentRow = DocumentHelpers.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
             currentRow.Should().Be(1);
 
 
             labelsInPage++;
-            currentColumn = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
-            currentRow = CreatePdf.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
+            currentColumn = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            currentRow = DocumentHelpers.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
             currentRow.Should().Be(1);
 
             // New row
             labelsInPage++;
-            currentColumn = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
-            currentRow = CreatePdf.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
+            currentColumn = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            currentRow = DocumentHelpers.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
             currentRow.Should().Be(2);
 
             //----  4 COLUMNS PER PAGE
@@ -232,19 +232,19 @@ namespace Kentor.LabelGeneratorTests
             columnsPerPage = 4;
             labelsInPage = 0; // No labels added yet
             currentRow = 1; // Start value
-            currentColumn = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
-            currentRow = CreatePdf.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
+            currentColumn = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            currentRow = DocumentHelpers.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
             currentRow.Should().Be(1);
 
             labelsInPage = 3;
-            currentColumn = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
-            currentRow = CreatePdf.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
+            currentColumn = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            currentRow = DocumentHelpers.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
             currentRow.Should().Be(1);
 
             // New row
             labelsInPage = 4;
-            currentColumn = CreatePdf.CalculateCurrentColumn(labelsInPage, columnsPerPage);
-            currentRow = CreatePdf.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
+            currentColumn = DocumentHelpers.CalculateCurrentColumn(labelsInPage, columnsPerPage);
+            currentRow = DocumentHelpers.CalculateCurrentRow(labelsInPage, columnsPerPage, currentColumn);
             currentRow.Should().Be(2);
         }
 
@@ -254,19 +254,19 @@ namespace Kentor.LabelGeneratorTests
             var settings = new LabelSettings_A4_2Columns8Rows();
             var currentColumn = 1;
 
-            var result = CreatePdf.CalculateContentPositionLeft(currentColumn, settings);
+            var result = DocumentHelpers.CalculateContentPositionLeft(currentColumn, settings);
             result.Should().Be(settings.LabelPaddingLeft + settings.LabelMarginLeft);
 
             currentColumn = 2;
-            result = CreatePdf.CalculateContentPositionLeft(currentColumn, settings);
+            result = DocumentHelpers.CalculateContentPositionLeft(currentColumn, settings);
             result.Should().Be(settings.LabelPaddingLeft + settings.LabelMarginLeft + settings.LabelPositionX);
 
             var currentRow = 1;
-            result = CreatePdf.CalculateContentPositionTop(currentRow, settings);
+            result = DocumentHelpers.CalculateContentPositionTop(currentRow, settings);
             result.Should().Be(settings.LabelPaddingTop + settings.LabelMarginTop);
 
             currentRow = 2;
-            result = CreatePdf.CalculateContentPositionTop(currentRow, settings);
+            result = DocumentHelpers.CalculateContentPositionTop(currentRow, settings);
             result.Should().Be(settings.LabelPaddingTop + settings.LabelMarginTop + settings.LabelPositionY);
         }
 
@@ -275,8 +275,8 @@ namespace Kentor.LabelGeneratorTests
         public void TestWriteDocument2ColumnsToDisc()
         {
             var documentType = DocumentType.A4_2Columns8Rows;
-            var document = CreatePdf.CreateDocument(testAddresses, documentType);
-            var documentAsByteArray = CreatePdf.SaveToArray(document);
+            var document = DocumentHelpers.CreateDocument(testAddresses, documentType);
+            var documentAsByteArray = DocumentHelpers.SaveToArray(document);
             File.WriteAllBytes(@"C:\Temp\TestFile_2Columns.pdf", documentAsByteArray);
         }
         // TEMP HACK FOR WRITING PDF TO DISC, TO BE REMOVED
@@ -284,8 +284,8 @@ namespace Kentor.LabelGeneratorTests
         public void TestWriteDocument3ColumnsToDisc()
         {
             var documentType = DocumentType.A4_3Columns8Rows;
-            var document = CreatePdf.CreateDocument(testAddresses, documentType);
-            var documentAsByteArray = CreatePdf.SaveToArray(document);
+            var document = DocumentHelpers.CreateDocument(testAddresses, documentType);
+            var documentAsByteArray = DocumentHelpers.SaveToArray(document);
             File.WriteAllBytes(@"C:\Temp\TestFile_3Columns.pdf", documentAsByteArray);
         }
     }

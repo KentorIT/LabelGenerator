@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Kentor.LabelGenerator
+namespace Kentor.LabelGenerator.Models
 {
     public enum DocumentType
     {

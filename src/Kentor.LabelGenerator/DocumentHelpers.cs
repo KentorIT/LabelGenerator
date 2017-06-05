@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using PdfSharp.Pdf;
-using System.IO;
+﻿using Kentor.LabelGenerator.Models;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing.Layout;
-using Kentor.LabelGenerator.Settings;
+using PdfSharp.Pdf;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Kentor.LabelGenerator
 {
-    public static class CreatePdf
+    public static class DocumentHelpers
     {
         public static PdfDocument CreateDocument(string[][] labelRows, DocumentType documentType)
         {
-            LabelSettings settings = GetSettings(documentType);
+            LabelSettings settings = Utilities.GetSettings(documentType);
 
             // Document settings
             PdfDocument doc = new PdfDocument();
@@ -59,25 +59,19 @@ namespace Kentor.LabelGenerator
             return doc;
         }
 
-        public static LabelSettings GetSettings(DocumentType documentType)
-        {
-            switch (documentType)
-            {
-                case DocumentType.A4_2Columns8Rows:
-                    return new LabelSettings_A4_2Columns8Rows();
-                case DocumentType.A4_3Columns8Rows:
-                    return new LabelSettings_A4_3Columns8Rows();
-                default:
-                    return new LabelSettings();
-            }
-        }
-
         public static PdfPage AddPage(PdfDocument doc, LabelSettings settings)
         {
             PdfPage page = doc.AddPage();
             page.Width = XUnit.FromMillimeter(settings.PageWidth);
             page.Height = XUnit.FromMillimeter(settings.PageHeight);
             return page;
+        }
+
+        public static byte[] SaveToArray(PdfDocument document)
+        {
+            MemoryStream stream = new MemoryStream();
+            document.Save(stream, false);
+            return stream.ToArray();
         }
 
         public static XSize GetContentSize(LabelSettings settings)
@@ -147,13 +141,6 @@ namespace Kentor.LabelGenerator
                 rows[i] += Environment.NewLine;
             }
             return string.Concat(rows);
-        }
-
-        public static byte[] SaveToArray(PdfDocument document)
-        {
-            MemoryStream stream = new MemoryStream();
-            document.Save(stream, false);
-            return stream.ToArray();
         }
     }
 }

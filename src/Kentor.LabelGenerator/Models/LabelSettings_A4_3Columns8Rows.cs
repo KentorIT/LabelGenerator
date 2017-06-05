@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Kentor.LabelGenerator.Settings
+namespace Kentor.LabelGenerator.Models
 {
-    public class LabelSettings_A4_2Columns8Rows : LabelSettings
+    public class LabelSettings_A4_3Columns8Rows : LabelSettings
     {
-        public LabelSettings_A4_2Columns8Rows()
+        public LabelSettings_A4_3Columns8Rows()
         {
-            columnsPerPage = 2;
+            columnsPerPage = 3;
             rowsPerPage = 8;
             pageWidth = 210; // A4
             pageHeight = 297; // A4
-            labelBaseWidth = 105;
+            labelBaseWidth = 70;
             labelBaseHeight = 37;
             labelPaddingLeft = 5;
             labelPaddingTop = 5;
@@ -22,10 +22,10 @@ namespace Kentor.LabelGenerator.Settings
             labelMarginTop = 5;
             labelMarginLeft = 0;
             labelpositionY = 37;
-            labelpositionX = 105;
-            fontSize = 9;
+            labelpositionX = 70;
+            fontSize = 8;
             fontFamily = "Arial";
-            maxCharactersPerRow = 80;
+            maxCharactersPerRow = 50;
         }
     }
 }
