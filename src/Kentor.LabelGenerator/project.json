@@ -1,0 +1,30 @@
+{
+  "version": "1.0.0-*",
+  "title": "Kentor.LabelGenerator",
+  "authors": ["Kentor.LabelGenerator"],
+  "packOptions": {
+    "owners": ["HSahlberg"],
+    "licenseUrl": "https://github.com/KentorIT/LabelGenerator/blob/master/LICENSE",
+    "projectUrl": "https://github.com/KentorIT/LabelGenerator",
+    "requireLicenseAcceptance": false,
+    "tags": [ "Labels", "PDF", "Avery" ]
+  },
+  "description": "A .NET Library for generating labels to PDF files",
+  "copyright": "Copyright Hannah Sahlberg and contributors 2017",
+
+  "dependencies": {
+    "PDFsharp": "1.50.4000-beta3b"
+  },
+
+  "frameworks": {
+    "net461": {
+      "imports": "dnxcore50"
+    }
+  },
+
+  "scripts": {
+    "postcompile": [
+      "dotnet pack --no-build --configuration Release"
+    ]
+  }
+}

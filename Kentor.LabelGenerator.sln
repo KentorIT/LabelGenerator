@@ -8,9 +8,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "LabelGenerator", "src\LabelGenerator\LabelGenerator.xproj", "{F25EBECE-09BE-4EAA-80A2-2A3A2C45B79A}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Kentor.LabelGenerator", "src\Kentor.LabelGenerator\Kentor.LabelGenerator.xproj", "{F25EBECE-09BE-4EAA-80A2-2A3A2C45B79A}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "LabelGeneratorTests", "src\LabelGeneratorTests\LabelGeneratorTests.xproj", "{EA1AC344-FB4D-499B-8796-22EE6EEC9801}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Kentor.LabelGeneratorTests", "src\Kentor.LabelGeneratorTests\Kentor.LabelGeneratorTests.xproj", "{EA1AC344-FB4D-499B-8796-22EE6EEC9801}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
