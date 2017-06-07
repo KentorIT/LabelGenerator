@@ -98,6 +98,26 @@ namespace Kentor.LabelGeneratorTests
         }
 
         [TestMethod]
+        public void TestEmptyRowsAreExcluded()
+        {
+            string[] address = new string[] { "Tolvan Tolvansson", null, "", "Tolvgatan 12", "12345 Tolvstad" };
+
+            var settings = new LabelSettings_A4_2Columns8Rows();
+            var result = DocumentHelpers.FormatLabelText(address, settings.MaxCharactersPerRow);
+            result.Should().Be("Tolvan Tolvansson\r\nTolvgatan 12\r\n12345 Tolvstad\r\n");
+        }
+
+        [TestMethod]
+        public void TestEmptyArrayReturnsEmptyLabel()
+        {
+            string[] address = new string[] { string.Empty, null, "" };
+
+            var settings = new LabelSettings_A4_2Columns8Rows();
+            var result = DocumentHelpers.FormatLabelText(address, settings.MaxCharactersPerRow);
+            result.Should().Be(string.Empty);
+        }
+
+        [TestMethod]
         public void TestColumnCalculation()
         {
             //---- 2 COLUMNS PER PAGE

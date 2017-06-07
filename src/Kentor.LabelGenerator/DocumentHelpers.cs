@@ -136,11 +136,14 @@ namespace Kentor.LabelGenerator
         {
             for (int i = 0; i < rows.Count(); i++)
             {
-                if (rows[i].Length > maxCharacters)
+                if (!string.IsNullOrWhiteSpace(rows[i]))
                 {
-                    rows[i] = rows[i].Substring(0, maxCharacters);
+                    if (rows[i].Length > maxCharacters)
+                    {
+                        rows[i] = rows[i].Substring(0, maxCharacters);
+                    }
+                    rows[i] += Environment.NewLine;
                 }
-                rows[i] += Environment.NewLine;
             }
             return string.Concat(rows);
         }
