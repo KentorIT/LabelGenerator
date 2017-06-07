@@ -13,7 +13,8 @@
   "copyright": "Copyright Hannah Sahlberg and contributors 2017",
 
   "dependencies": {
-    "PDFsharp": "1.50.4000-beta3b"
+    "PDFsharp": "1.50.4000-beta3b",
+    "System.ComponentModel.Annotations": "4.3.0"
   },
 
   "frameworks": {

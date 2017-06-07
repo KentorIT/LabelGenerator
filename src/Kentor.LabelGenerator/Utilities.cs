@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Kentor.LabelGenerator.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Kentor.LabelGenerator.Models
+namespace Kentor.LabelGenerator
 {
     public static class Utilities
     {

@@ -69,9 +69,11 @@ namespace Kentor.LabelGenerator
 
         public static byte[] SaveToArray(PdfDocument document)
         {
-            MemoryStream stream = new MemoryStream();
-            document.Save(stream, false);
-            return stream.ToArray();
+            using (var stream = new MemoryStream())
+            {
+                document.Save(stream, false);
+                return stream.ToArray();
+            }
         }
 
         public static XSize GetContentSize(LabelSettings settings)

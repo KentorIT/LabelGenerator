@@ -7,6 +7,7 @@ using Kentor.LabelGenerator;
 using FluentAssertions;
 using System.IO;
 using Kentor.LabelGenerator.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace Kentor.LabelGeneratorTests
 {
@@ -30,7 +31,6 @@ namespace Kentor.LabelGeneratorTests
             }
             testAddresses = addressList.ToArray();
         }
-
 
         [TestMethod]
         public void TestSettingsAreGeneratedForSpecificDocumentType()
@@ -89,7 +89,7 @@ namespace Kentor.LabelGeneratorTests
             var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
             var randomText = new string(Enumerable.Repeat(chars, 80).Select(s => s[random.Next(s.Length)]).ToArray());
             string[] address = new string[] { $"Tolvan {randomText}" };
-            
+
             var settings = new LabelSettings_A4_2Columns8Rows();
             var totalMaxLength = Environment.NewLine.Length + settings.MaxCharactersPerRow;
 
@@ -268,6 +268,26 @@ namespace Kentor.LabelGeneratorTests
             currentRow = 2;
             result = DocumentHelpers.CalculateContentPositionTop(currentRow, settings);
             result.Should().Be(settings.LabelPaddingTop + settings.LabelMarginTop + settings.LabelPositionY);
+        }
+
+        [TestMethod]
+        public void TestDocumentTypeDisplayName()
+        {
+            var documentType = DocumentType.A4_2Columns8Rows;
+            var member = typeof(DocumentType).GetMember(documentType.ToString());
+            var displayName = (DisplayAttribute)member.First()
+                .GetCustomAttributes(typeof(DisplayAttribute), false)
+                .FirstOrDefault();
+
+            displayName.Name.Should().Be("2 kolumner");
+
+            documentType = DocumentType.A4_3Columns8Rows;
+            member = typeof(DocumentType).GetMember(documentType.ToString());
+            displayName = (DisplayAttribute)member.First()
+               .GetCustomAttributes(typeof(DisplayAttribute), false)
+               .FirstOrDefault();
+
+            displayName.Name.Should().Be("3 kolumner");
         }
 
         // TEMP HACK FOR WRITING PDF TO DISC, TO BE REMOVED
