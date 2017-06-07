@@ -23,7 +23,7 @@ namespace Kentor.LabelGenerator.Models
             labelMarginLeft = 0;
             fontSize = 8;
             fontFamily = "Arial";
-            maxCharactersPerRow = 50;
+            maxCharactersPerRow = 40;
         }
     }
 }

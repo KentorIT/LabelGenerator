@@ -22,11 +22,11 @@ namespace Kentor.LabelGeneratorTests
             var addressList = new List<string[]>();
             for (int i = 0; i < 30; i++)
             {
-                var address = new string[] { "TolvanTolvanTolvanTolvanTolvanTolvanTolvanTolvanTolvanTo TolvanssonTolvanTolvanssonTolvanTolvanssonTolvanTo", "c/o Elvan Elvansson", "Tolvvägen 12", "12345 Tolvstad", "Sverige" };
+                var address = new string[] { "TolvanTolvanTolvanTolvanTolvanTolvanTolvanTolvanTolvanTo TolvanssonTolvanTolvanssonTolvanTolvanssonTolvanTo", "c/o Elvan Elvansson", "Tolvvägen 12", "12345 Tolvstad" };
                 addressList.Add(address);
                 address = new string[] { "Anita Andersson", "c/o Ante Andersson", "Betavägen 2", "12345 Saltö", "Sverige" };
                 addressList.Add(address);
-                address = new string[] { "Bertil Cederqvist", "c/o Berit Cederqvist", "Djurövägen 2", "12345 Djurö", "Sverige" };
+                address = new string[] { "Bertil Cederqvist", "", "Djurövägen 2", "12345 Djurö" };
                 addressList.Add(address);
             }
             testAddresses = addressList.ToArray();
