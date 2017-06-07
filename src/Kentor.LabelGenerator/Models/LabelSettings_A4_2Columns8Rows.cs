@@ -21,6 +21,8 @@ namespace Kentor.LabelGenerator.Models
             labelPaddingBottom = 5;
             labelMarginTop = 5;
             labelMarginLeft = 0;
+            labelPositionX = 105;
+            labelPositionY = 37;
             fontSize = 9;
             fontFamily = "Arial";
             maxCharactersPerRow = 70;

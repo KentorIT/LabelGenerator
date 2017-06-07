@@ -19,6 +19,8 @@ namespace Kentor.LabelGenerator.Models
         protected double labelPaddingBottom;
         protected double labelMarginLeft;
         protected double labelMarginTop;
+        protected double labelPositionX;
+        protected double labelPositionY;
         protected int fontSize;
         protected string fontFamily;
         protected int maxCharactersPerRow;
@@ -36,8 +38,8 @@ namespace Kentor.LabelGenerator.Models
         public double LabelPaddingBottom { get { return labelPaddingBottom; } }
         public double LabelMarginLeft { get { return labelMarginLeft; } }
         public double LabelMarginTop { get { return labelMarginTop; } }
-        public double LabelPositionX { get { return labelBaseWidth; } }
-        public double LabelPositionY { get { return labelBaseHeight; } }
+        public double LabelPositionX { get { return labelPositionX; } }
+        public double LabelPositionY { get { return labelPositionY; } }
         public int FontSize { get { return fontSize; } }
         public string FontFamily { get { return fontFamily; } }
         public int MaxCharactersPerRow { get { return maxCharactersPerRow; } }
