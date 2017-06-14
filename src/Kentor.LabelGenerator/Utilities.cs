@@ -18,10 +18,15 @@ namespace Kentor.LabelGenerator
         {
             switch (documentType)
             {
-                case DocumentType.A4_2Columns8Rows:
-                    return new LabelSettings_A4_2Columns8Rows();
-                case DocumentType.A4_3Columns8Rows:
-                    return new LabelSettings_A4_3Columns8Rows();
+
+                case DocumentType.A4_70x36_L7181:
+                    return new LabelSettings_A4_70x36_L7181();
+                case DocumentType.A4_70x37_L7180:
+                    return new LabelSettings_A4_70x37_L7180();
+                case DocumentType.A4_99x33_L7162:
+                    return new LabelSettings_A4_99x33_L7162();
+                case DocumentType.A4_105x37_L7182:
+                    return new LabelSettings_A4_105x37_L7182();
                 default:
                     return new LabelSettings();
             }

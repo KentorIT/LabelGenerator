@@ -35,13 +35,21 @@ namespace Kentor.LabelGeneratorTests
         [TestMethod]
         public void TestSettingsAreGeneratedForSpecificDocumentType()
         {
-            var docType = DocumentType.A4_2Columns8Rows;
+            var docType = DocumentType.A4_105x37_L7182;
             var settings = Utilities.GetSettings(docType);
-            settings.Should().BeOfType<LabelSettings_A4_2Columns8Rows>();
+            settings.Should().BeOfType<LabelSettings_A4_105x37_L7182>();
 
-            docType = DocumentType.A4_3Columns8Rows;
+            docType = DocumentType.A4_70x37_L7180;
             settings = Utilities.GetSettings(docType);
-            settings.Should().BeOfType<LabelSettings_A4_3Columns8Rows>();
+            settings.Should().BeOfType<LabelSettings_A4_70x37_L7180>();
+
+            docType = DocumentType.A4_70x36_L7181;
+            settings = Utilities.GetSettings(docType);
+            settings.Should().BeOfType<LabelSettings_A4_70x36_L7181>();
+
+            docType = DocumentType.A4_99x33_L7162;
+            settings = Utilities.GetSettings(docType);
+            settings.Should().BeOfType<LabelSettings_A4_99x33_L7162>();
         }
 
         [TestMethod]
@@ -49,7 +57,7 @@ namespace Kentor.LabelGeneratorTests
         {
             testAddresses = testAddresses.Concat(testAddresses).ToArray();
 
-            var documentType = DocumentType.A4_2Columns8Rows;
+            var documentType = DocumentType.A4_105x37_L7182;
             var result = DocumentHelpers.CreateDocument(testAddresses, documentType);
             result.PageCount.Should().BeGreaterThan(1);
         }
@@ -57,7 +65,7 @@ namespace Kentor.LabelGeneratorTests
         [TestMethod]
         public void TestRectangleReturnsValue()
         {
-            var settings = new LabelSettings_A4_2Columns8Rows();
+            var settings = new LabelSettings_A4_105x37_L7182();
             var contentSize = DocumentHelpers.GetContentSize(settings);
             var result = DocumentHelpers.CreateRectangle(settings.LabelPositionX, settings.LabelPositionY, contentSize);
             result.IsEmpty.Should().BeFalse();
@@ -66,7 +74,7 @@ namespace Kentor.LabelGeneratorTests
         [TestMethod]
         public void TestAddPageHeightAndWidthShouldBeConvertedToTypePoint()
         {
-            var settings = new LabelSettings_A4_2Columns8Rows();
+            var settings = new LabelSettings_A4_105x37_L7182();
             var document = new PdfSharp.Pdf.PdfDocument();
             var result = DocumentHelpers.AddPage(document, settings);
 
@@ -90,7 +98,7 @@ namespace Kentor.LabelGeneratorTests
             var randomText = new string(Enumerable.Repeat(chars, 80).Select(s => s[random.Next(s.Length)]).ToArray());
             string[] address = new string[] { $"Tolvan {randomText}" };
 
-            var settings = new LabelSettings_A4_2Columns8Rows();
+            var settings = new LabelSettings_A4_105x37_L7182();
             var totalMaxLength = Environment.NewLine.Length + settings.MaxCharactersPerRow;
 
             var result = DocumentHelpers.FormatLabelText(address, settings.MaxCharactersPerRow);
@@ -102,7 +110,7 @@ namespace Kentor.LabelGeneratorTests
         {
             string[] address = new string[] { "Tolvan Tolvansson", null, "", "Tolvgatan 12", "12345 Tolvstad" };
 
-            var settings = new LabelSettings_A4_2Columns8Rows();
+            var settings = new LabelSettings_A4_105x37_L7182();
             var result = DocumentHelpers.FormatLabelText(address, settings.MaxCharactersPerRow);
             result.Should().Be("Tolvan Tolvansson\r\nTolvgatan 12\r\n12345 Tolvstad\r\n");
         }
@@ -112,7 +120,7 @@ namespace Kentor.LabelGeneratorTests
         {
             string[] address = new string[] { string.Empty, null, "" };
 
-            var settings = new LabelSettings_A4_2Columns8Rows();
+            var settings = new LabelSettings_A4_105x37_L7182();
             var result = DocumentHelpers.FormatLabelText(address, settings.MaxCharactersPerRow);
             result.Should().Be(string.Empty);
         }
@@ -271,7 +279,7 @@ namespace Kentor.LabelGeneratorTests
         [TestMethod]
         public void TestContentPositionCalculation()
         {
-            var settings = new LabelSettings_A4_2Columns8Rows();
+            var settings = new LabelSettings_A4_105x37_L7182();
             var currentColumn = 1;
 
             var result = DocumentHelpers.CalculateContentPositionLeft(currentColumn, settings);
@@ -293,28 +301,44 @@ namespace Kentor.LabelGeneratorTests
         [TestMethod]
         public void TestDocumentTypeDisplayName()
         {
-            var documentType = DocumentType.A4_2Columns8Rows;
+            var documentType = DocumentType.A4_105x37_L7182;
             var member = typeof(DocumentType).GetMember(documentType.ToString());
             var displayName = (DisplayAttribute)member.First()
                 .GetCustomAttributes(typeof(DisplayAttribute), false)
                 .FirstOrDefault();
 
-            displayName.Name.Should().Be("2 kolumner");
+            displayName.Name.Should().Be("Adressetiketter 105 x 37 mm");
 
-            documentType = DocumentType.A4_3Columns8Rows;
+            documentType = DocumentType.A4_70x37_L7180;
             member = typeof(DocumentType).GetMember(documentType.ToString());
             displayName = (DisplayAttribute)member.First()
                .GetCustomAttributes(typeof(DisplayAttribute), false)
                .FirstOrDefault();
 
-            displayName.Name.Should().Be("3 kolumner");
+            displayName.Name.Should().Be("Adressetiketter 70 x 37 mm");
+
+            documentType = DocumentType.A4_70x36_L7181;
+            member = typeof(DocumentType).GetMember(documentType.ToString());
+            displayName = (DisplayAttribute)member.First()
+               .GetCustomAttributes(typeof(DisplayAttribute), false)
+               .FirstOrDefault();
+
+            displayName.Name.Should().Be("Adressetiketter 70 x 36 mm");
+
+            documentType = DocumentType.A4_99x33_L7162;
+            member = typeof(DocumentType).GetMember(documentType.ToString());
+            displayName = (DisplayAttribute)member.First()
+               .GetCustomAttributes(typeof(DisplayAttribute), false)
+               .FirstOrDefault();
+
+            displayName.Name.Should().Be("Adressetiketter 99,1 x 33,9 mm");
         }
 
         // TEMP HACK FOR WRITING PDF TO DISC, TO BE REMOVED
         [TestMethod]
         public void TestWriteDocument2ColumnsToDisc()
         {
-            var documentType = DocumentType.A4_2Columns8Rows;
+            var documentType = DocumentType.A4_105x37_L7182;
             var document = DocumentHelpers.CreateDocument(testAddresses, documentType);
             var documentAsByteArray = DocumentHelpers.SaveToArray(document);
             File.WriteAllBytes(@"C:\Temp\TestFile_2Columns.pdf", documentAsByteArray);
@@ -323,10 +347,28 @@ namespace Kentor.LabelGeneratorTests
         [TestMethod]
         public void TestWriteDocument3ColumnsToDisc()
         {
-            var documentType = DocumentType.A4_3Columns8Rows;
+            var documentType = DocumentType.A4_70x37_L7180;
             var document = DocumentHelpers.CreateDocument(testAddresses, documentType);
             var documentAsByteArray = DocumentHelpers.SaveToArray(document);
             File.WriteAllBytes(@"C:\Temp\TestFile_3Columns.pdf", documentAsByteArray);
+        }
+        // TEMP HACK FOR WRITING PDF TO DISC, TO BE REMOVED
+        [TestMethod]
+        public void TestWriteDocument2ColumnsWithMarginToDisc()
+        {
+            var documentType = DocumentType.A4_99x33_L7162;
+            var document = DocumentHelpers.CreateDocument(testAddresses, documentType);
+            var documentAsByteArray = DocumentHelpers.SaveToArray(document);
+            File.WriteAllBytes(@"C:\Temp\TestFile_2Columns_Margin.pdf", documentAsByteArray);
+        }
+        // TEMP HACK FOR WRITING PDF TO DISC, TO BE REMOVED
+        [TestMethod]
+        public void TestWriteDocument3ColumnsWithMarginToDisc()
+        {
+            var documentType = DocumentType.A4_70x36_L7181;
+            var document = DocumentHelpers.CreateDocument(testAddresses, documentType);
+            var documentAsByteArray = DocumentHelpers.SaveToArray(document);
+            File.WriteAllBytes(@"C:\Temp\TestFile_3Columns_Margin.pdf", documentAsByteArray);
         }
     }
 }
